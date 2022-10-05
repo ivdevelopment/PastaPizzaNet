@@ -8,24 +8,16 @@ namespace PastaPizzaNet
 {
     internal abstract class Drank : IBedrag
     {
-        public enum Dranksoorten
+        public Drank()
         {
-            water, limonade, cocacola, thee, koffie
         }
-        private decimal prijsValue;
-        public decimal Prijs
+            public enum Dranksoorten
         {
-            get { return prijsValue; }
-            set
-            {
-                if (value.Equals(Dranksoorten.cocacola) || value.Equals(Dranksoorten.water) || value.Equals(Dranksoorten.limonade))
-                    prijsValue = 2m;
-                else if (value.Equals(Dranksoorten.thee) || value.Equals(Dranksoorten.koffie))
-                    prijsValue = 2.5m;
-                else
-                    prijsValue = 0m;
-            }
+            water, limonade, cola, koffie, thee
         }
+        public Dranksoorten Dranken { get; set; }
+        public decimal Prijs { get; set; }
+
 
         public abstract decimal BerekenBedrag();
     }

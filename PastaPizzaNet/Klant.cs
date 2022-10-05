@@ -23,7 +23,29 @@ namespace PastaPizzaNet
         public string Familienaam { get; set; }
         public override string ToString()
         {
-            return $"Klant: {Voornaam} {Familienaam}";
+            return $"{Voornaam} {Familienaam}";
+        }
+
+        
+        public void Wegschrijven()
+        {
+            string locatie = @"C:\data\";
+            try
+            {
+                using var schrijver = new StreamWriter(locatie + "klanten.txt");
+                schrijver.Write(KlantId + "#");
+                schrijver.Write(Voornaam + "#");
+                schrijver.Write(Familienaam + "#");
+                schrijver.WriteLine();
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Fout bij het inlezen van het bestand!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

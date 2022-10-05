@@ -8,29 +8,28 @@ namespace PastaPizzaNet
 {
     internal class Frisdrank : Drank
     {
-
+        public Frisdrank(Dranksoorten naam)
+        {
+            Naam = naam;
+        }
         private Dranksoorten naamValue;
         public Dranksoorten Naam
         {
             get { return naamValue; }
             set
             {
-                if (value.Equals(Dranksoorten.cocacola) || value.Equals(Dranksoorten.water) || value.Equals(Dranksoorten.limonade))
+                if (value.Equals(Dranksoorten.cola) || value.Equals(Dranksoorten.water) || value.Equals(Dranksoorten.limonade))
                     naamValue = value;
             }
         }
         private decimal prijsValue;
         public decimal Prijs
         {
-            get { return prijsValue; }
-            set
-            {
-                prijsValue = 2m;
-            }
+            get { return prijsValue = 2m; }
         }
         public override string ToString()
         {
-            return $"Drank: {Naam} ({Prijs})";
+            return $"{Naam} ({Prijs})";
         }
         public override decimal BerekenBedrag()
         {

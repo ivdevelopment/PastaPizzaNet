@@ -17,19 +17,20 @@ namespace PastaPizzaNet
         }
         public string Naam { get; set; }
         private decimal prijsValue;
+        public BesteldGerecht.Grootte Grootte { get; set; }
+        public BesteldGerecht.Extras Extras { get; set; }
         public decimal Prijs
         {
             get { return prijsValue; }
             set
             {
-                if (Grootte == BesteldGerecht.Grootte.groot)
-                    prijsValue = value + 3;
-                else
-                    prijsValue = value;
+                prijsValue = value;
+                if (Grootte.ToString().Equals(BesteldGerecht.Grootte.groot.ToString()))
+                    prijsValue = value + 3m;
+                /*if (Extras)
+                    prijsValue = value;*/
             }
         }
-        public BesteldGerecht.Grootte Grootte { get; set; }
-        public BesteldGerecht.Extras Extras { get; set; }
         public override string ToString()
         {
             return $"Gerecht: {Naam} ({Prijs} EUR) ({Grootte}) extra: {Extras}";
@@ -38,6 +39,29 @@ namespace PastaPizzaNet
         public decimal BerekenBedrag()
         {
             return Prijs;
+        }
+        public void Wegschrijven()
+        {
+            string locatie = @"C:\data\";
+            StringBuilder gerechtRegel;
+            try
+            {
+                using var schrijver = new StreamWriter(locatie + "gerechten.txt");
+                gerechtRegel = new StringBuilder();
+                gerechtRegel.Append($"{Naam}#");
+                gerechtRegel.Append($"{Prijs}#");
+                gerechtRegel.Append($"{Grootte}#");
+                gerechtRegel.Append($"{Extras}#");
+                schrijver.WriteLine(gerechtRegel);
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Fout bij het inlezen van het bestand!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
