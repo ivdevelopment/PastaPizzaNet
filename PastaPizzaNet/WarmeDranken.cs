@@ -19,13 +19,13 @@ namespace PastaPizzaNet
             get { return naamValue; }
             set
             {
+                if (value.Equals(Dranksoorten.koffie) || value.Equals(Dranksoorten.thee))
                     naamValue = value;
             }
         }
-        private decimal prijsValue;
-        public new decimal Prijs
+        public override decimal Prijs
         {
-            get { return prijsValue = 2.5m; }
+            get { return 2.5m; }
         }
         
         public override string ToString()
@@ -34,7 +34,7 @@ namespace PastaPizzaNet
         }
         public override decimal BerekenBedrag()
         {
-            return prijsValue;
+            return Prijs;
         }
     }
 }

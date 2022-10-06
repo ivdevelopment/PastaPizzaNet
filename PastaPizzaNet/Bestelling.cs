@@ -9,7 +9,7 @@ namespace PastaPizzaNet
 {
     internal class Bestelling : IBedrag
     {
-        public Bestelling(int bestelNr, Klant klant, Gerecht gerecht, Drank drank, Dessert dessert, int aantal)
+        public Bestelling(int bestelNr, Klant klant, Gerecht gerecht, Drank drank, Dessert dessert, int aantal = 1)
         {
             BestelNr = bestelNr;
             Klant = klant;
@@ -29,22 +29,26 @@ namespace PastaPizzaNet
             get { return aantalValue; }
             set { aantalValue = value; }
         }
-
+        private decimal totaalBedrag;
         public decimal BerekenBedrag() 
         {
-            return (Gerecht.Prijs + Drank.Prijs + Dessert.Prijs) * Aantal;
+            totaalBedrag = (Gerecht.Prijs + Drank.Prijs + Dessert.Prijs) * Aantal;
+            if (Gerecht.Prijs != 0 && Drank.Prijs != 0 && Dessert.Prijs != 0)
+                totaalBedrag -= totaalBedrag * 0.1m;
+            else return totaalBedrag;
+            return totaalBedrag;
         }
         public override string ToString()
         {
             return $"Aantal: {Aantal}";
         }
-        public void Wegschrijven()
+        public void Wegschrijven(StreamWriter schrijver)
         {
-            string locatie = @"C:\data\";
+           
             StringBuilder bestellingRegel;
             try
             {
-                using var schrijver = new StreamWriter(locatie + "bestellingen.txt");
+                
                 bestellingRegel = new StringBuilder();
                 bestellingRegel.Append($"{Klant.KlantId}#");
                 bestellingRegel.Append($"{Gerecht.Naam}-");
@@ -54,6 +58,23 @@ namespace PastaPizzaNet
                 bestellingRegel.Append($"{Dessert.Naam}#");
                 bestellingRegel.Append($"{Dessert.Prijs}#");
                 schrijver.WriteLine(bestellingRegel);
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Fout bij het inlezen van het bestand!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        public static void Inlezen(StreamReader lezer)
+        {
+            try
+            {
+                string regel;
+                while ((regel = lezer.ReadLine()) != null)
+                    Console.WriteLine(regel);
             }
             catch (IOException)
             {

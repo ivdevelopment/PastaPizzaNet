@@ -14,7 +14,7 @@ namespace PastaPizzaNet
             Voornaam = voornaam;
             Familienaam = familienaam;
         }
-        public Klant() : this(0, "onbekend", "")
+        public Klant() : this(0, "onbekende klant", "")
         {
         }
 
@@ -27,16 +27,32 @@ namespace PastaPizzaNet
         }
 
         
-        public void Wegschrijven()
+        public void Wegschrijven(StreamWriter schrijver)
         {
-            string locatie = @"C:\data\";
             try
             {
-                using var schrijver = new StreamWriter(locatie + "klanten.txt");
                 schrijver.Write(KlantId + "#");
                 schrijver.Write(Voornaam + "#");
                 schrijver.Write(Familienaam + "#");
                 schrijver.WriteLine();
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Fout bij het inlezen van het bestand!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public static void Inlezen(StreamReader lezer)
+        {
+            try
+            {
+                string regel;
+                while ((regel = lezer.ReadLine()) != null)
+                    Console.WriteLine(regel);
             }
             catch (IOException)
             {

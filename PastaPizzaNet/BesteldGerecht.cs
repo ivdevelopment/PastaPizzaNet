@@ -10,12 +10,20 @@ namespace PastaPizzaNet
     {
         public enum Grootte
         {
-            klein, groot
+            klein = 1,
+            groot = 2
+        }
+        public enum GroottePrijs
+        {
+            klein = 0,
+            groot = 3
         }
 
         public enum Extras
         {
-            brood, kaas, look
+            brood = 1,
+            kaas = 1,
+            look = 1
         }
     }
 }

@@ -22,10 +22,9 @@ namespace PastaPizzaNet
                     naamValue = value;
             }
         }
-        private decimal prijsValue;
-        public decimal Prijs
+        public override decimal Prijs
         {
-            get { return prijsValue = 2m; }
+            get { return 2m; }
         }
         public override string ToString()
         {

@@ -16,19 +16,21 @@ namespace PastaPizzaNet
             Extras = extras;
         }
         public string Naam { get; set; }
-        private decimal prijsValue;
         public BesteldGerecht.Grootte Grootte { get; set; }
+        public BesteldGerecht.GroottePrijs GroottePrijs { get; set; }
         public BesteldGerecht.Extras Extras { get; set; }
+        private decimal prijsValue;
         public decimal Prijs
         {
-            get { return prijsValue; }
+            get
+            {
+                if (Grootte == BesteldGerecht.Grootte.groot)
+                    prijsValue += 3m;
+                return prijsValue;
+            }
             set
             {
                 prijsValue = value;
-                if (Grootte.ToString().Equals(BesteldGerecht.Grootte.groot.ToString()))
-                    prijsValue = value + 3m;
-                /*if (Extras)
-                    prijsValue = value;*/
             }
         }
         public override string ToString()
@@ -40,19 +42,34 @@ namespace PastaPizzaNet
         {
             return Prijs;
         }
-        public void Wegschrijven()
+        public void Wegschrijven(StreamWriter schrijver)
         {
-            string locatie = @"C:\data\";
             StringBuilder gerechtRegel;
             try
             {
-                using var schrijver = new StreamWriter(locatie + "gerechten.txt");
                 gerechtRegel = new StringBuilder();
                 gerechtRegel.Append($"{Naam}#");
                 gerechtRegel.Append($"{Prijs}#");
                 gerechtRegel.Append($"{Grootte}#");
                 gerechtRegel.Append($"{Extras}#");
                 schrijver.WriteLine(gerechtRegel);
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Fout bij het inlezen van het bestand!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        public static void Inlezen(StreamReader lezer)
+        {
+            try
+            {
+                string regel;
+                while ((regel = lezer.ReadLine()) != null)
+                    Console.WriteLine(regel);
             }
             catch (IOException)
             {

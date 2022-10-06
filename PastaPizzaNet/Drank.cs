@@ -16,7 +16,7 @@ namespace PastaPizzaNet
             water, limonade, cola, koffie, thee
         }
         public Dranksoorten Dranken { get; set; }
-        public decimal Prijs { get; set; }
+        public virtual decimal Prijs { get; set; }
 
 
         public abstract decimal BerekenBedrag();
